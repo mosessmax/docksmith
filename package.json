@@ -1,0 +1,40 @@
+{
+  "name": "docksmith",
+  "version": "0.1.0",
+  "description": "Intelligent container configuration generator for any runtime",
+  "type": "module",
+  "bin": {
+    "docksmith": "./bin/docksmith.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "docker",
+    "podman",
+    "containers",
+    "development",
+    "devops",
+    "cli"
+  ],
+  "author": "mosessmax",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^9.2.12",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "commander": "^11.1.0",
+    "yaml": "^2.3.4",
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
