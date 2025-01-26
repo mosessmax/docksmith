@@ -4,7 +4,7 @@
   "description": "Intelligent container configuration generator for any runtime",
   "type": "module",
   "bin": {
-    "docksmith": "./bin/docksmith.js"
+    "docksmith": "bin/docksmith.js"
   },
   "scripts": {
     "test": "jest",
