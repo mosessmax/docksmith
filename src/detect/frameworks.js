@@ -4,7 +4,7 @@ import { glob } from 'glob';
 
 const FRAMEWORK_PATTERNS = {
   nextjs: {
-    files: ['next.config.js', 'next.config.mjs'],
+    files: ['next.config.js', 'next.config.mjs', 'next.config.ts'],
     deps: ['next'],
     configFiles: ['package.json']
   },
