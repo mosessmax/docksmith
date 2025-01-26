@@ -1,7 +1,13 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import yaml from 'yaml';
 import { getRuntimeSpecificConfig } from '../detect/runtime.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const TEMPLATES_DIR = path.join(__dirname, '..', 'templates');
 
 export async function generateConfig({ framework, runtime, development = false, port = 3000 }) {
   const runtimeConfig = getRuntimeSpecificConfig(runtime.runtime);
@@ -15,9 +21,16 @@ export async function generateConfig({ framework, runtime, development = false, 
 }
 
 async function generateDockerfile({ framework, development }) {
-  const templatePath = path.join(process.cwd(), 'src', 'templates', framework, development ? 'Dockerfile.dev' : 'Dockerfile');
-  const content = await fs.readFile(templatePath, 'utf8');
-  await fs.writeFile('Dockerfile', content);
+  const templatePath = path.join(TEMPLATES_DIR, framework, development ? 'Dockerfile.dev' : 'Dockerfile');
+  try {
+    const content = await fs.readFile(templatePath, 'utf8');
+    await fs.writeFile('Dockerfile', content);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      throw new Error(`Template not found for ${framework} ${development ? 'development' : 'production'} Dockerfile`);
+    }
+    throw error;
+  }
 }
 
 async function generateCompose({ framework, runtime, development, port, runtimeConfig }) {
