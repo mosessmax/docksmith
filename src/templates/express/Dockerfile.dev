@@ -1,0 +1,25 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# install development dependencies
+RUN apk add --no-cache python3 make g++
+
+# install tsx globally for TypeScript/ESM support (if needed)
+RUN npm install -g tsx
+
+# copy package files
+COPY package*.json ./
+
+# install dependencies with exact versions
+RUN npm ci
+
+# copy source
+COPY . .
+
+# expose port for development
+EXPOSE 3000
+# Expose debug port
+EXPOSE 9229
+
+CMD ["node", "--watch", "--inspect=0.0.0.0:9229", "./src/index.js"]

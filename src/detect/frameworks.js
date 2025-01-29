@@ -9,9 +9,18 @@ const FRAMEWORK_PATTERNS = {
     configFiles: ['package.json']
   },
   express: {
-    files: ['app.js', 'index.js', 'server.js'],
+    files: ['app.js', 'index.js', 'server.js', 'src/app.js',
+      'src/server.js','src/index.js'],
     deps: ['express'],
-    configFiles: ['package.json']
+    configFiles: ['package.json'],
+    additionalChecks: async (projectPath) => {
+      try {
+        const packageJson = JSON.parse(await fs.readFile(path.join(projectPath, 'package.json'), 'utf8'));
+        return !!packageJson.dependencies?.['express'];
+      } catch {
+        return false;
+      }
+    }
   },
   flask: {
     files: ['app.py', 'wsgi.py'],

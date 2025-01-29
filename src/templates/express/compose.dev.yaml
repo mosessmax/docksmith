@@ -1,0 +1,27 @@
+services:
+  app:
+    build: 
+      context: .
+      target: development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+      - "9229:9229"
+    environment:
+      - NODE_ENV=development
+      - PORT=${PORT:-3000}
+    # enable containerized development
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: .
+          target: /app
+          action: sync
+          ignore:
+            - node_modules/
+            - .git/
+    #  for debugging
+    command: npm run dev
